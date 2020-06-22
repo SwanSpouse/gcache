@@ -33,7 +33,7 @@ type TestEmail struct {
 
 func init() {
 	var e error
-	addr := "root:123123@tcp(127.0.0.1:3306)/freedom?charset=utf8&parseTime=True&loc=Local"
+	addr := "root:root@tcp(127.0.0.1:3306)/freedom?charset=utf8&parseTime=True&loc=Local"
 	db, e = gorm.Open("mysql", addr)
 	if e != nil {
 		panic(e)
