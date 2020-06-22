@@ -35,6 +35,7 @@ func newHandleManager(db *gorm.DB, cp *plugin, redisOption *option.RedisOption) 
 	return result
 }
 
+// 这里面啥都有，db redis 和 plugin
 type Handle struct {
 	redisClient RedisClient
 	db          *gorm.DB
@@ -62,6 +63,7 @@ func (h *Handle) NewUpdateHandle() *updateHandle {
 	return newUpdateHandle(h)
 }
 
+// 在mysql 的CRUD里面加入hook
 func (h *Handle) registerCall() {
 	newCallCreate(h).Bind()
 	newCallDelete(h).Bind()
