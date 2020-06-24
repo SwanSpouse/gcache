@@ -45,7 +45,7 @@ func (c *callRow) invoke(scope *gorm.Scope) {
 	if rowResult, ok = result.(*gorm.RowQueryResult); !ok {
 		return
 	}
-
+	fmt.Printf("====>SQLKEY:%s ContValue:%s PrimaryValue:%s", easyScope.condition.SQLKey, easyScope.condition.SQLCountValue, easyScope.condition.PrimaryValue)
 	count, e, _ := c.singleGroup.Do(easyScope.condition.SQLKey+easyScope.condition.SQLCountValue+fmt.Sprint(easyScope.condition.PrimaryValue), func() (interface{}, error) {
 		return c.QueryCount(easyScope)
 	})

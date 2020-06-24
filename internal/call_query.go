@@ -43,6 +43,7 @@ func (c *callQuery) invoke(scope *gorm.Scope) {
 		return
 	}
 
+	fmt.Printf("call query ====>SQLKEY:%s ContValue:%s PrimaryValue:%v\n\n\n\n", easyScope.condition.SQLKey, easyScope.condition.SQLCountValue, easyScope.condition.PrimaryValue)
 	v, _, _ := c.singleGroup.Do(easyScope.condition.SQLKey+easyScope.condition.SQLValue+fmt.Sprint(easyScope.condition.PrimaryValue), func() (i interface{}, e error) {
 		var s singleQuery
 		if ok, list := c.byPrimary(easyScope); ok {
@@ -84,7 +85,6 @@ func (c *callQuery) pass(es *easyScope) bool {
 func (c *callQuery) byPrimary(es *easyScope) (ok bool, list []interface{}) {
 	ok = false
 	if len(es.condition.PrimaryValue) == 0 || len(es.condition.ObjectField) > 0 {
-
 		return
 	}
 	value := es.IndirectValue()
@@ -101,6 +101,7 @@ func (c *callQuery) byPrimary(es *easyScope) (ok bool, list []interface{}) {
 	return
 }
 
+// 有搜索条件查询都转换成主键查询
 func (c *callQuery) bySearch(es *easyScope) (ok bool, list []interface{}) {
 	ok = false
 
@@ -121,15 +122,14 @@ func (c *callQuery) bySearch(es *easyScope) (ok bool, list []interface{}) {
 		return
 	}
 
+	// 通过主键进行查询 这里查出来是无序的，在后面会转成有序的
 	models, err := qh.ByPrimary(es, pks...)
 	if err != nil {
 		return
 	}
-
 	if len(models) > 1 {
 		models = c.sortModels(es, pks, models)
 	}
-
 	ok = true
 	list = models
 	return

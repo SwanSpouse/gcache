@@ -90,20 +90,20 @@ func Two(fun func()) {
 */
 func TestQuerySimple(t *testing.T) {
 	Two(func() {
-		var tcs []*TestUser
-		var tcs2 []TestUser
-		db.Find(&tcs, []int{1, 2})
-		fmt.Println("1", tcs)
-		db.Find(&tcs2, []int{1, 2})
-		fmt.Println("2", tcs2)
+		//var tcs []*TestUser
+		//var tcs2 []TestUser
+		//db.Find(&tcs, []int{1, 2})
+		//fmt.Println("1", tcs)
+		//db.Find(&tcs2, []int{1, 2})
+		//fmt.Println("2", tcs2)
 
 		var tc TestUser
-		db.First(&tc, 1)
+		db.Model(tc).Where("user_name = ? AND age = ?", "name_1", 21).First(&tc)
 		fmt.Println("3", tc)
-		db.Last(&tc, 1)
-		fmt.Println("4", tc)
-		db.Where("id = ?", 1, &tc)
-		fmt.Println("5", tc)
+		//db.Last(&tc, 1)
+		//fmt.Println("4", tc)
+		//db.Where("id = ?", 1, &tc)
+		//fmt.Println("5", tc)
 	})
 }
 

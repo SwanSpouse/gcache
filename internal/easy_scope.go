@@ -17,6 +17,8 @@ import (
 )
 
 func newEasyScope(s *gorm.Scope, h *Handle) *easyScope {
+	//fmt.Printf("====> saerch:%+v value:%+v sql:%+v sqlvar:%+v feilds:%+v selectAttrs:%+v\n",
+	//	s.Search, s.Value, s.SQL, s.SQLVars, s.Fields(), s.SelectAttrs())
 	es := new(easyScope)
 	es.Scope = s.New(s.Value)
 	es.forgeSearch = (*search)(unsafe.Pointer(s.Search))

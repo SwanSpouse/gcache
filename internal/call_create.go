@@ -35,6 +35,7 @@ func (create *callCreate) beforeInvoke(scope *gorm.Scope) {
 
 // afterInvoke
 func (create *callCreate) afterInvoke(scope *gorm.Scope) {
+	// 如果有影响说明缓存失效了，直接删除
 	//update 无影响 直接返回
 	if scope.DB().RowsAffected <= 0 {
 		return

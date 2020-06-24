@@ -97,6 +97,8 @@ func (q *queryHandle) ByPrimary(scope *easyScope, primarys ...interface{}) (objs
 
 // BySearch 通过条件查询主键列表
 func (q *queryHandle) BySearch(scope *easyScope) (primarys []interface{}, e error) {
+	fmt.Printf("=====> BySearch table:%s SQL:%s SQLValue:%s idnexKeys:%+v\n", scope.Table, scope.condition.SQLKey, scope.condition.SQLValue, scope.indexKeys)
+
 	jsearch, e := q.getSearchPrimarys(scope.Table, scope.condition.SQLKey, scope.condition.SQLValue, scope.indexKeys)
 	if e != nil {
 		return
@@ -105,13 +107,13 @@ func (q *queryHandle) BySearch(scope *easyScope) (primarys []interface{}, e erro
 		primarys = jsearch.Primarys
 		return
 	}
-
 	rows, err := scope.EasyPrimarys()
 	if err != nil {
 		e = err
 		return
 	}
 
+	// 写到redis里面
 	if len(rows) > 0 || scope.opt.PenetrationSafe {
 		create := newCreateHandle(q.handle)
 		if e = create.CreateSearch(scope.Table, scope.condition.SQLKey, scope.condition.SQLValue, scope.condition.ObjectField, rows, scope.opt.Expires, scope.indexKeys, scope.joinsCondition...); e != nil {
